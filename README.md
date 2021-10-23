@@ -1,5 +1,5 @@
 <p align="center">
-<a href="https://troubleshooting.tools/lookup/mac/"><img src="https://troubleshooting.tools/assets/img/gh_logo.gif" height="200"></a>
+<a href="https://troubleshooting.tools/lookup/mac/"><img src="https://troubleshooting.tools/assets/img/troubleshooting.tools/gh_logo.png" height="200"></a>
 </p>
 
 # MAC Address Lookup 
