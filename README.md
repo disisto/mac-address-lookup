@@ -54,8 +54,14 @@ Slack:<br>
 Discord:<br>
 <img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/discord.jpg" style="width: 50%; height: 50%">
 
+Mattermost:<br>
+<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/mattermost.jpg" style="width: 50%; height: 50%">
+
 WhatsApp:<br>
 <img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/whatsapp.jpg" style="width: 50%; height: 50%">
+
+Telegram:<br>
+<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/telegram.jpg" style="width: 50%; height: 50%">
 
 Twitter:<br>
 <img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/twitter.jpg" style="width: 50%; height: 50%">
