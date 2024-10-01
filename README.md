@@ -178,18 +178,18 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 ##### Response:
 
   ```
-[
-  {
-    "mac": "C4C17D7FEADC",
-    "oui": "C4C17D",
-    "vendor": "Apple, Inc.",
-    "organization_address": "1 Infinite Loop Cupertino CA US 95014",
-    "assignment_type": "MA-L",
-    "block_size": 16777216,
-    "start_address": "C4:C1:7D:00:00:00",
-    "end_address": "C4:C1:7D:FF:FF:FF"
-  }
-]
+  [
+    {
+      "mac": "C4C17D7FEADC",
+      "oui": "C4C17D",
+      "vendor": "Apple, Inc.",
+      "organization_address": "1 Infinite Loop Cupertino CA US 95014",
+      "assignment_type": "MA-L",
+      "block_size": 16777216,
+      "start_address": "C4:C1:7D:00:00:00",
+      "end_address": "C4:C1:7D:FF:FF:FF"
+    }
+  ]
   ```
 
 ##### Request:
@@ -199,22 +199,22 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 ##### Response:
 
   ```
-[
-  {
-    "mac": "C4C17D7FEADC",
-    "oui": "C4C17D",
-    "vendor": "Apple, Inc.",
-    "organization_address": "1 Infinite Loop Cupertino CA US 95014",
-    "assignment_type": "MA-L",
-    "block_size": 16777216,
-    "start_address": "C4:C1:7D:00:00:00",
-    "end_address": "C4:C1:7D:FF:FF:FF"
-  },
-  {
-    "mac": "007041F85E38",
-    "error": "OUI not found for the provided MAC address."
-  }
-]
+  [
+    {
+      "mac": "C4C17D7FEADC",
+      "oui": "C4C17D",
+      "vendor": "Apple, Inc.",
+      "organization_address": "1 Infinite Loop Cupertino CA US 95014",
+      "assignment_type": "MA-L",
+      "block_size": 16777216,
+      "start_address": "C4:C1:7D:00:00:00",
+      "end_address": "C4:C1:7D:FF:FF:FF"
+    },
+    {
+      "mac": "007041F85E38",
+      "error": "OUI not found for the provided MAC address."
+    }
+  ]
   ```
 
 ### Error Handling:
