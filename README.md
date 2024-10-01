@@ -224,10 +224,10 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 * ```OUI not found for the provided MAC address```
   * The entered MAC address has a valid format, but no match was found in the database.
 
-* ```Incomplete vendor information. Please provide a full MAC addresst```
+* ```Incomplete vendor information. Please provide a full MAC address```
   * The block was assigned by the IEEE to several vendors. To obtain accurate results, the 7th to 9th digits, or preferably the complete MAC address, are required.
 
-* ```HTTP 429: Too Many Requestst```
+* ```HTTP 429: Too Many Requests```
   * Rate limit: 250 requests per second.
   * This limit may be adjusted without prior notice based on server resource demand.
 
