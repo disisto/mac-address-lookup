@@ -127,23 +127,109 @@ To integrate the search bar into a different web page a few line are needed. The
 
 ## 6.) API
 
-The API allows to integrate the results of the MAC Address Lookup results on a different web page or app. Different formats of outputs are available, which can be adjust based on the need.
+The MAC Address Lookup API allows you to search for details about a MAC address, including the associated vendor and additional information based on the size of the MAC address block. The API supports both Plaintext and JSON responses and can handle multiple MAC addresses in a single request.
+
+### Features:
+
+* **Plaintext Response:** Returns just the vendor name.
+* **JSON Response:** Returns detailed information, including OUI, block category, block size, block range (start and end addresses), vendor name, and vendor address.
+* **Support for Multiple MAC Addresses:** You can input multiple MAC addresses using commas as delimiter.
+* **MAC Address Validation:** The API validates the input MAC address, normalizing it to remove any separators (colons, hyphens, etc.) before searching.
+
+### Input Format:
+
+* The API accepts MAC addresses in various formats, including:
+  * ```C4:C1:7D:7F:EA:DC```
+  * ```C4-C1-7D-7F-EA-DC```
+  * ```C4C17D-7FEADC```
+  * ```C4C17D7FEADC```
+  * ```C4C1.7D7F.EADC```
+* The first 6, 7, or 9 hexadecimal digits are used to search against the OUI database, depending on the size of the MAC address block.
 
 | Format | Level      | URL | Output |
 | ----------------- |:------- | :---| :---|
-| Plaintext   | 0 | `https://api.troubleshooting.tools/lookup/mac/` `{mac_address}` | Vendor |
-| JSON   | 0 | `https://api.troubleshooting.tools/lookup/mac/json/` `{mac_address}` | OUI, Block category, Block size, Block range, Vendor name, Vendor address |
+| Plaintext   | 0 | `https://api.troubleshooting.tools/lookup/mac/` `{mac_address}` | Returns the vendor name for the provided MAC address. |
+| JSON   | 0 | `https://api.troubleshooting.tools/lookup/mac/json/` `{mac_address}` | Returns the detailed information including OUI, block category, block size, block range, vendor name, and vendor address. |
 
-Error handling:
-- Invalid input: Every input that can\'t be identified as MAC address will trigger an error message.
-- No entry found: Entered MAC address has a valid format, but there is no mach with database.
-- Rate Limit: IP addresses of clients that make more than 250 requests/second<sup>[1]</sup> get blocked for 60 minutes.
+#### Plaintext Example:
 
-## 7.) Limitations and caveats
+##### Request:
 
-### API rate limit
+  ```https://api.troubleshooting.tools/lookup/mac/C4C17D7FEADC```
 
-- <sup>[1]</sup>The rate calculation is based on laboratory values ​​and is adapted to the real conditions under constant monitoring.
+##### Response:
+
+  ```Apple, Inc.```
+
+##### Note:
+* If multiple MAC addresses are provided in a Plaintext request (separated by commas), each MAC address and its associated vendor will be returned.
+* Example for multiple MAC addresses:
+  ```
+  C4C17D7FEADC: Apple, Inc.
+  007041F85E38: OUI not found for the provided MAC address.
+  ```
+
+#### JSON Example:
+
+##### Request:
+
+  ```https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC```
+
+##### Response:
+
+  ```
+[
+  {
+    "mac": "C4C17D7FEADC",
+    "oui": "C4C17D",
+    "vendor": "Apple, Inc.",
+    "organization_address": "1 Infinite Loop Cupertino CA US 95014",
+    "assignment_type": "MA-L",
+    "block_size": 16777216,
+    "start_address": "C4:C1:7D:00:00:00",
+    "end_address": "C4:C1:7D:FF:FF:FF"
+  }
+]
+  ```
+
+##### Request:
+
+  ```https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC,007041F85E38```
+
+##### Response:
+
+  ```
+[
+  {
+    "mac": "C4C17D7FEADC",
+    "oui": "C4C17D",
+    "vendor": "Apple, Inc.",
+    "organization_address": "1 Infinite Loop Cupertino CA US 95014",
+    "assignment_type": "MA-L",
+    "block_size": 16777216,
+    "start_address": "C4:C1:7D:00:00:00",
+    "end_address": "C4:C1:7D:FF:FF:FF"
+  },
+  {
+    "mac": "007041F85E38",
+    "error": "OUI not found for the provided MAC address."
+  }
+]
+  ```
+
+### Error Handling:
+* ```Invalid MAC address format```
+  * An error message will be triggered if the input cannot be recognized as a valid MAC address.
+
+* ```OUI not found for the provided MAC address```
+  * The entered MAC address has a valid format, but no match was found in the database.
+
+* ```Incomplete vendor information. Please provide a full MAC addresst```
+  * The block was assigned by the IEEE to several vendors. To obtain accurate results, the 7th to 9th digits, or preferably the complete MAC address, are required.
+
+* ```HTTP 429: Too Many Requestst```
+  * Rate limit: 250 requests per second.
+  * This limit may be adjusted without prior notice based on server resource demand.
 
 ---
 All mentioned trademarks are the property of their respective owners.
