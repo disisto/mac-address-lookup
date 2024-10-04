@@ -155,16 +155,26 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 
 ##### Request:
 
-  ```https://api.troubleshooting.tools/lookup/mac/C4C17D7FEADC```
+  ``` BASH
+  curl -X GET https://api.troubleshooting.tools/lookup/mac/{macaddress}
+  ```
+
+##### Example Request::
+
+  ``` BASH
+  curl -X GET https://api.troubleshooting.tools/lookup/mac/C4C17D7FEADC
+  ```
 
 ##### Response:
 
-  ```Apple, Inc.```
+  ```BASH
+  Apple, Inc.
+  ```
 
 ##### Note:
 * If multiple MAC addresses are provided in a Plaintext request (separated by commas), each MAC address and its associated vendor will be returned.
 * Example for multiple MAC addresses:
-  ```
+  ``` BASH
   C4C17D7FEADC: Apple, Inc.
   007041F85E38: OUI not found for the provided MAC address.
   ```
@@ -173,11 +183,19 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 
 ##### Request:
 
-  ```https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC```
+  ``` BASH
+  curl -X GET https://api.troubleshooting.tools/lookup/mac/json/{macaddress}
+  ```
+
+##### Example Request:
+
+  ``` BASH
+  curl -X GET https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC
+  ```
 
 ##### Response:
 
-  ```
+  ``` JSON
   [
     {
       "mac": "C4C17D7FEADC",
@@ -191,14 +209,21 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
     }
   ]
   ```
-
 ##### Request:
 
-  ```https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC,007041F85E38```
+  ``` BASH
+  curl -X GET https://api.troubleshooting.tools/lookup/mac/json/{macaddress_1},{macaddress_2}
+  ```
+
+##### Example Request:
+
+  ``` BASH
+  curl -X GET https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC,007041F85E38
+  ```
 
 ##### Response:
 
-  ```
+  ``` JSON
   [
     {
       "mac": "C4C17D7FEADC",
