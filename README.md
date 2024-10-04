@@ -153,7 +153,7 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 
 #### Plaintext Example:
 
-##### Request:
+##### Endpoint:
 
   ``` BASH
   curl -X GET https://api.troubleshooting.tools/lookup/mac/{macaddress}
@@ -165,7 +165,7 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
   curl -X GET https://api.troubleshooting.tools/lookup/mac/C4C17D7FEADC
   ```
 
-##### Response:
+##### Example Response:
 
   ```BASH
   Apple, Inc.
@@ -181,7 +181,7 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
 
 #### JSON Example:
 
-##### Request:
+##### Endpoint:
 
   ``` BASH
   curl -X GET https://api.troubleshooting.tools/lookup/mac/json/{macaddress}
@@ -193,7 +193,7 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
   curl -X GET https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC
   ```
 
-##### Response:
+##### Example Response:
 
   ``` JSON
   [
@@ -209,7 +209,8 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
     }
   ]
   ```
-##### Request:
+
+##### Endpoint:
 
   ``` BASH
   curl -X GET https://api.troubleshooting.tools/lookup/mac/json/{macaddress_1},{macaddress_2}
@@ -221,7 +222,7 @@ The MAC Address Lookup API allows you to search for details about a MAC address,
   curl -X GET https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC,007041F85E38
   ```
 
-##### Response:
+##### Example Response:
 
   ``` JSON
   [
