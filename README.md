@@ -1,261 +1,236 @@
 <p align="center">
-<a href="https://troubleshooting.tools/lookup/mac/"><img src="https://troubleshooting.tools/assets/img/troubleshooting.tools/gh_logo.png" height="200"></a>
+<a href="https://troubleshooting.tools/lookup/mac/"><img src="img/app-icon.png" width="160" alt="troubleshooting.tools"></a>
 </p>
 
-# MAC Address Lookup 
+<h1 align="center">MAC Address Vendor Lookup</h1>
 
-MAC address lookup by troubleshooting.tools resolves the entered MAC/OUI/CID/IAB address to the assign vendor including additional information like vendor name, address, block category, size and range.
+<p align="center">Find the organisation behind a MAC address, an OUI or every entry of an ARP table.</p>
 
-## Content
-<ol>
-<li>) Web page</li>
-<li>) Webhook</li>
-<li>) Open Graph</li>
-<li>) OpenSearch</li>
-<li>) HTML search form</li>
-<li>) API</li>
-<li>) Limitations and caveats</li>
-</ol>
+<p align="center"><a href="https://troubleshooting.tools/lookup/mac/"><b>Open the tool</b></a> &nbsp;·&nbsp; <a href="https://troubleshooting.tools/docs/mac-lookup">Documentation</a> &nbsp;·&nbsp; <a href="https://disisto.de/project-mac-lookup">Project page</a></p>
 
+<p align="center"><img src="img/screenshot.webp" width="800" alt="MAC Address Vendor Lookup on troubleshooting.tools"></p>
 
-## 1.) Web page
+## Contents
 
-Look up single MAC address
-<ol>
-<li>Visit with a web browser https://troubleshooting.tools/lookup/mac/</li>
-<li>Enter a MAC address in the search form</li>
-<li>Hit enter key or submit button</li>
-</ol>
+- [Features](#features)
+- [On the web page](#on-the-web-page)
+- [Links you can share](#links-you-can-share)
+- [Registry types and block sizes](#registry-types-and-block-sizes)
+- [Why the most specific block wins](#why-the-most-specific-block-wins)
+- [Special addresses](#special-addresses)
+- [From the command line](#from-the-command-line)
+- [Recipes](#recipes)
+- [Privacy](#privacy)
+- [Good to know](#good-to-know)
 
-Look up multiple MAC addresses simultaneously
-<ol>
-<li>Visit with a web browser https://troubleshooting.tools/multi/lookup/mac/</li>
-<li>Paste the ARP table that has been copied from the Windows CMD, MAC/Linux terminal or similar in the search form</li>
-<li>Hit enter key or submit button</li>
-</ol>
+## Features
 
+- Resolves full addresses as well as bare prefixes against a local copy of the public IEEE registries: MA-L, MA-M, MA-S, CID and IAB.
+- Picks the most specific registered block, so small MA-M and MA-S assignments are named correctly and not hidden behind the large block around them.
+- Shows the registered organisation, its filed address, the registry type, how many addresses the block holds and its first and last address.
+- Any common notation works: colons, hyphens, Cisco-style dots, no separators, and the macOS form without leading zeros.
+- A second tab takes a pasted ARP table or any mixed text and resolves every address it finds.
+- Broadcast, multicast and locally administered addresses get an explanation with the standard behind them.
+- An open API in JSON or plain text, for one address or a comma-separated list.
 
-## 2.) Webhook
+## On the web page
 
-Beside the classic form input on the web page, the web page supports also webhooks. This possibility is ideal to share a link and guide the recipient directly to the results.
+1. Open <https://troubleshooting.tools/lookup/mac/>.
+2. On the **Single Lookup** tab, type an address such as `3C:22:FB:8A:41:07` and press **Lookup**.
+3. For many devices at once, switch to **Multi / ARP Table**, paste the output of `arp -a` or `ip neigh` as it is and press **Lookup All**.
 
-**URL:** **`https://troubleshooting.tools/lookup/mac/`** `{mac_address}` <br><br>
-Example: `https://troubleshooting.tools/lookup/mac/B8F2551F2E3D`
+A single lookup shows these panels:
 
-## 3.) Open Graph
+| Panel | What it shows |
+|---|---|
+| **Vendor Information** | the address as entered, vendor, matched OUI and the organisation's filed address |
+| **Block Details** | assignment type (MA-L, MA-M, MA-S, CID or IAB), block size, range start and range end |
+| **Organization Location** | the filed address on a map, loaded only after you agree to it |
+| **Special MAC Address** | for broadcast, multicast and locally administered addresses: address type, standard, typical usage and why there is no vendor |
 
-Sharing the Webhook link into a web page or app that support the Open Graph protocol gives the opportunity to share a small excerpt of the results, without that the recipient need to visit the webpage itself.
+The multi tab answers with one table row per address found: MAC address, OUI, vendor and type. Duplicates are removed, every address is written as `XX:XX:XX:XX:XX:XX`, special addresses show their name instead of a vendor, and lines without an address are skipped.
 
-Examples
+## Links you can share
 
-Slack:<br>
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/slack.jpg" style="width: 50%; height: 50%">
+Every lookup has a stable address that opens straight on the result:
 
-Discord:<br>
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/discord.jpg" style="width: 50%; height: 50%">
+| Notation | Link |
+|---|---|
+| With colons | <https://troubleshooting.tools/lookup/mac/3C:22:FB:8A:41:07> |
+| Without separators | <https://troubleshooting.tools/lookup/mac/70B3D5F2A123> |
 
-Mattermost:<br>
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/mattermost.jpg" style="width: 50%; height: 50%">
+Shared in a chat or a ticket, the preview already carries the result, for example *“3C:22:FB:8A:41:07 is registered to Apple, Inc. (MA-L), 3C:22:FB:00:00:00 to 3C:22:FB:FF:FF:FF.”*
 
-WhatsApp:<br>
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/whatsapp.jpg" style="width: 50%; height: 50%">
+**Search from the browser address bar.** Add a custom search engine in your browser with this URL and a short keyword such as `mac`:
 
-Telegram:<br>
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/telegram.jpg" style="width: 50%; height: 50%">
-
-Twitter:<br>
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opengraph/twitter.jpg" style="width: 50%; height: 50%">
-
-
-## 4.) Open Search
-
-The browser integration of troubleshooting.tools allows to use the browser address bar as a search input field, when needed, without visiting the original web page before.
-
-This function is called OpenSearch and works with Apple Safari, Microsoft Edge, Mozilla Firefox and Google Chrome. Before we can start using it, we have to setup our browser for this function. Here an example for Google Chrome:
-
-At the top right, click More <img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/0_menu.jpg"> and then **Settings**.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/1_google_chrome_settings.jpg">
-
-Under "Search engine," click **Manage search engines**.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/2_manage_search_settings.jpg">
-
-To the right of "Other search engines," click **Add**.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/3_search_engine_settings.jpg">
-
-Fill out the text fields as shown below and click **Add**.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/4_edit_search_engine.jpg" align="right">
-
-**Search engine:**<br>
-`Enter troubleshooting.tools or a name of your choice.`
-
-**Keyword:**<br>
-`Enter the character "t" or a keyword of your choice, to trigger later the search function.`
-
-**URL with %s in place of query:**<br>
-`https://troubleshooting.tools/lookup/mac/%s`
-
-<br><br><br><br><br>
-
-The setup is complete. You are still able to continue to enter a URL in the address bar or any search terms that trigger a Google search.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/5_google_search_bar.jpg">
-
-The new feature is, if you enter an "t" followed by a space, then you activate the troubleshooting.tools search.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/6_troubleshooting.tools_search_bar_a.jpg">
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/7_troubleshooting.tools_search_bar_b.jpg">
-
-This cause that Google Chrome address bar react like the search field on this website.
-
-<img src="https://github.com/disisto/mac-address-lookup/blob/main/img/opensearch/8_troubleshooting.tools_search_bar_c.jpg">
-
-## 5.) HTML search form
-
-To integrate the search bar into a different web page a few line are needed. The look and feel can be adjusted as desired.
-
-```html
-<form method="post" action="https://troubleshooting.tools/lookup/mac/">
-  <input type="text" name="MACADDRESS" placeholder="">
-  <input type="submit" value="&#128269;">
-</form>
+```
+https://troubleshooting.tools/lookup/mac/%s
 ```
 
-## 6.) API
+Typing `mac 3C22FB8A4107` in the address bar then opens the lookup directly. Use the form without separators here, because browsers encode colons in search terms.
 
-The MAC Address Lookup API allows you to search for details about a MAC address, including the associated vendor and additional information based on the size of the MAC address block. The API supports both Plaintext and JSON responses and can handle multiple MAC addresses in a single request.
+## Registry types and block sizes
 
-### Features:
+The IEEE hands out MAC address space in blocks of three sizes. The size decides how many leading hex digits identify the owner:
 
-* **Plaintext Response:** Returns just the vendor name.
-* **JSON Response:** Returns detailed information, including OUI, block category, block size, block range (start and end addresses), vendor name, and vendor address.
-* **Support for Multiple MAC Addresses:** You can input multiple MAC addresses using commas as delimiter.
-* **MAC Address Validation:** The API validates the input MAC address, normalizing it to remove any separators (colons, hyphens, etc.) before searching.
+| Type | Identified by | Addresses per block | Typical holder |
+|---|---|---|---|
+| MA-L | 6 hex digits | 16,777,216 | large manufacturers |
+| MA-M | 7 hex digits | 1,048,576 | mid-sized manufacturers |
+| MA-S | 9 hex digits | 4,096 | small series and special devices |
+| IAB | 9 hex digits | 4,096 | the older form of MA-S |
+| CID | 6 hex digits | 16,777,216 | company identifiers, handled like an MA-L block with start and end address |
 
-### Input Format:
+That is why a bare prefix sometimes resolves and sometimes does not: six digits are enough for an MA-L block, but an MA-S assignment needs nine.
 
-* The API accepts MAC addresses in various formats, including:
-  * ```C4:C1:7D:7F:EA:DC```
-  * ```C4-C1-7D-7F-EA-DC```
-  * ```C4C17D-7FEADC```
-  * ```C4C17D7FEADC```
-  * ```C4C1.7D7F.EADC```
-* The first 6, 7, or 9 hexadecimal digits are used to search against the OUI database, depending on the size of the MAC address block.
+## Why the most specific block wins
 
-| Format | Level      | URL | Output |
-| ----------------- |:------- | :---| :---|
-| Plaintext   | 0 | `https://api.troubleshooting.tools/lookup/mac/` `{mac_address}` | Returns the vendor name for the provided MAC address. |
-| JSON   | 0 | `https://api.troubleshooting.tools/lookup/mac/json/` `{mac_address}` | Returns the detailed information including OUI, block category, block size, block range, vendor name, and vendor address. |
+An MA-S or MA-M block sits inside a larger block that the IEEE keeps for itself. The lookup therefore tries nine digits first, then seven, then six, and the first match names the real assignee.
 
-#### Plaintext Example:
+If an address only reaches the IEEE's own parent block, the answer asks for more digits instead of naming the registry as the vendor:
 
-##### Endpoint:
+```sh
+curl -s https://api.troubleshooting.tools/v1/lookup/mac/json/70B3D5
+```
 
-  ``` BASH
-  https://api.troubleshooting.tools/lookup/mac/{macaddress}
-  ```
+```json
+[{"mac":"70B3D5","error":"Vendor information incomplete. Please provide a full MAC address."}]
+```
 
-##### Example Request::
+With the full address the same prefix resolves to the small block and its owner:
 
-  ``` BASH
-  curl -X GET https://api.troubleshooting.tools/lookup/mac/C4C17D7FEADC
-  ```
+```sh
+curl -s https://api.troubleshooting.tools/v1/lookup/mac/json/70B3D5F2A123 | jq .
+```
 
-##### Example Response:
+```json
+[
+  {
+    "mac": "70B3D5F2A123",
+    "oui": "70B3D5F2A",
+    "vendor": "WIBOND Informationssysteme GmbH",
+    "organization_address": "Neustädter Strasse 19 Parkstein Bayern DE 92711",
+    "assignment_type": "MA-S",
+    "block_size": 4096,
+    "start_address": "70:B3:D5:F2:A0:00",
+    "end_address": "70:B3:D5:F2:AF:FF"
+  }
+]
+```
 
-  ```BASH
-  Apple, Inc.
-  ```
+Blocks no longer in the IEEE files are left out of the matching.
 
-##### Note:
-* If multiple MAC addresses are provided in a Plaintext request (separated by commas), each MAC address and its associated vendor will be returned.
-* Example for multiple MAC addresses:
-  ``` BASH
-  C4C17D7FEADC: Apple, Inc.
-  007041F85E38: OUI not found for the provided MAC address.
-  ```
+## Special addresses
 
-#### JSON Example:
+Some addresses are not assigned to a manufacturer at all. On the web page they get a **Special MAC Address** panel instead of a vendor:
 
-##### Endpoint:
+| Address | Type | Standard | Typical use |
+|---|---|---|---|
+| `FF:FF:FF:FF:FF:FF` | Broadcast | IEEE 802.3 | ARP requests, DHCP discovery |
+| `01:00:5E:7F:00:01` | IPv4 multicast | RFC 7042 | mDNS, IGMP, routing protocols; the lower 23 bits carry the group |
+| `33:33:00:00:00:FB` | IPv6 multicast | RFC 2464 | neighbour discovery, multicast listener discovery |
+| `02:42:AC:11:00:02` | Locally administered | IEEE 802 | privacy protection, virtual machines, software-defined networking |
 
-  ``` BASH
-  https://api.troubleshooting.tools/lookup/mac/json/{macaddress}
-  ```
+An address is locally administered when the second-lowest bit of the first octet is set. Through the API these addresses come back with `OUI not found for the provided MAC address.`; the explanation is part of the web page.
 
-##### Example Request:
+Not every unusual block is special: `00:00:5E:00:01:0A`, a VRRP virtual router address, belongs to a regular MA-L block registered to IANA and resolves like any other.
 
-  ``` BASH
-  curl -X GET https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC
-  ```
+## From the command line
 
-##### Example Response:
+The API lives at `https://api.troubleshooting.tools/v1`, needs no key and allows requests from any origin:
 
-  ``` JSON
-  [
-    {
-      "mac": "C4C17D7FEADC",
-      "oui": "C4C17D",
-      "vendor": "Apple, Inc.",
-      "organization_address": "1 Infinite Loop Cupertino CA US 95014",
-      "assignment_type": "MA-L",
-      "block_size": 16777216,
-      "start_address": "C4:C1:7D:00:00:00",
-      "end_address": "C4:C1:7D:FF:FF:FF"
-    }
-  ]
-  ```
+```
+/lookup/mac/json/{mac}     JSON array with the full record
+/lookup/mac/{mac}          plain text with the vendor name
+```
 
-##### Endpoint:
+Both take one address or several separated by commas, in any notation.
 
-  ``` BASH
-  https://api.troubleshooting.tools/lookup/mac/json/{macaddress_1},{macaddress_2}
-  ```
+| Field | Meaning |
+|---|---|
+| `mac` | the address exactly as sent |
+| `oui` | the matched prefix: 6, 7 or 9 hex digits |
+| `vendor` | registered organisation |
+| `organization_address` | the filed address, copied as registered |
+| `assignment_type` | MA-L, MA-M, MA-S, CID or IAB |
+| `block_size`, `start_address`, `end_address` | size and boundaries of the block |
+| `error` | present instead of the fields above when an address cannot be resolved |
 
-##### Example Request:
+Each address that cannot be resolved gets its own error entry in the array; the request itself still answers with HTTP 200:
 
-  ``` BASH
-  curl -X GET https://api.troubleshooting.tools/lookup/mac/json/C4C17D7FEADC,007041F85E38
-  ```
+| Message | Meaning |
+|---|---|
+| `Invalid MAC address format.` | the input is not a MAC address |
+| `OUI not found for the provided MAC address.` | well-formed, but in no registered block: special or randomised addresses |
+| `Vendor information incomplete. Please provide a full MAC address.` | only the IEEE parent block matched; send more digits |
 
-##### Example Response:
+Every field and message is also described in the [documentation](https://troubleshooting.tools/docs/mac-lookup).
 
-  ``` JSON
-  [
-    {
-      "mac": "C4C17D7FEADC",
-      "oui": "C4C17D",
-      "vendor": "Apple, Inc.",
-      "organization_address": "1 Infinite Loop Cupertino CA US 95014",
-      "assignment_type": "MA-L",
-      "block_size": 16777216,
-      "start_address": "C4:C1:7D:00:00:00",
-      "end_address": "C4:C1:7D:FF:FF:FF"
-    },
-    {
-      "mac": "007041F85E38",
-      "error": "OUI not found for the provided MAC address."
-    }
-  ]
-  ```
+## Recipes
 
-### Error Handling:
-* ```Invalid MAC address format```
-  * An error message will be triggered if the input cannot be recognized as a valid MAC address.
+**Vendor name only, for a quick check**
 
-* ```OUI not found for the provided MAC address```
-  * The entered MAC address has a valid format, but no match was found in the database.
+```sh
+curl -s https://api.troubleshooting.tools/v1/lookup/mac/3C:22:FB:8A:41:07
+# Apple, Inc.
+```
 
-* ```Incomplete vendor information. Please provide a full MAC address```
-  * The block was assigned by the IEEE to several vendors. To obtain accurate results, the 7th to 9th digits, or preferably the complete MAC address, are required.
+**Several addresses in one request**
 
-* ```HTTP 429: Too Many Requests```
-  * Rate limit: 250 requests per second.
-  * This limit may be adjusted without prior notice based on server resource demand.
+```sh
+curl -s "https://api.troubleshooting.tools/v1/lookup/mac/json/001A113F6B20,3c-22-fb-8a-41-07,02-42-AC-11-00-02" \
+  | jq -r '.[] | "\(.mac)\t\(.vendor // .error)"'
+# 001A113F6B20        Google, Inc.
+# 3c-22-fb-8a-41-07   Apple, Inc.
+# 02-42-AC-11-00-02   OUI not found for the provided MAC address.
+```
+
+**Resolve your ARP table**
+
+The macOS form without leading zeros (`0:1a:11:…`) is accepted as it is:
+
+```sh
+MACS=$(arp -a \
+  | grep -oE '([0-9a-fA-F]{1,2}[:-]){5}[0-9a-fA-F]{1,2}' \
+  | paste -sd, -)
+curl -s "https://api.troubleshooting.tools/v1/lookup/mac/$MACS"
+# 3c:22:fb:8a:41:7: Apple, Inc.
+# 0:1a:11:3f:6b:20: Google, Inc.
+```
+
+With exactly one address in the table, the plain-text answer is just the vendor name, without the prefix.
+
+**Block boundaries for an allow list**
+
+```sh
+curl -s https://api.troubleshooting.tools/v1/lookup/mac/json/70B3D5F2A123 \
+  | jq -r '.[0] | "\(.vendor): \(.start_address) – \(.end_address)"'
+# WIBOND Informationssysteme GmbH: 70:B3:D5:F2:A0:00 – 70:B3:D5:F2:AF:FF
+```
+
+**Spot locally administered addresses before asking**
+
+```sh
+mac=02:42:AC:11:00:02
+[ $(( 0x${mac:0:2} & 2 )) -ne 0 ] && echo "$mac is locally administered"
+```
+
+Send a whole table as one comma-separated request rather than one request per address.
+
+## Privacy
+
+- No account, no sign-up, no key.
+- Only the public IEEE registry is read.
+- A MAC address identifies a network interface, so treat lists you paste as identifying data.
+- The map of the registered address is the only third-party content and loads only after you agree to it.
+
+## Good to know
+
+- Phones and laptops often use a random MAC address on Wi-Fi. When no vendor is found, that is the usual reason.
+- The filed organisation address is copied from the registry as it is; its formatting varies from entry to entry.
+- The JSON answer is an array, also for a single address.
+- The service is reached over IPv4.
 
 ---
-All mentioned trademarks are the property of their respective owners.
+
+<sub>Part of <a href="https://troubleshooting.tools">troubleshooting.tools</a>.</sub>
